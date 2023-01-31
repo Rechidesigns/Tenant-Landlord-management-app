@@ -11,6 +11,10 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+import os
+from dotenv import load_dotenv, find_dotenv
+load_dotenv(find_dotenv())
+from django.utils.timezone import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,12 +24,19 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-mh(ey!vi#rr7c0e+ns#shunu+dgbpn@r(+_xzdeh1xa7+82di3'
+SECRET_KEY = os.getenv('SECRET_KEY')
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': os.getenv('CLOUD_NAME'),
+    'API_KEY': os.getenv('CLOUD_API'),
+    'API_SECRET': os.getenv('CLOUD_SECRET_KEY'),
+}
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*", '127.0.0.1']
 
 
 # Application definition
@@ -37,6 +48,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'tenant_landlord_app',
+    'cloudinary',
+    'rest_framework',
+    'djoser',
 ]
 
 MIDDLEWARE = [
@@ -120,4 +135,66 @@ STATIC_URL = 'static/'
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
+
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+STATIC_FILE_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+
+# Default primary key field type
+# https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
+
+
+
+# AUTH_USER_MODEL = "account.User"
+
+
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+EMAIL_BACKEND = "django.core.mail.backends.smtpt.EmailBackend"
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+EMAIL_HOST = 'smtp.gmass.co'
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+EMAIL_PORT = 465
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
+
+
+DEFAULT_FROM_EMAIL = 'King from landlord tenant management<noreply@landlordtenantmanagement.com>'
+
+SITE_NAME = 'landlord tenant management software'
+
+DOMAIN = 'landlordtenantmanagement.com'
+
+DJOSER = {
+    'ACTIVATION_URL': 'activate/{uid}/{token}',
+    'SEND_ACTIVATION_EMAIL': True,
+}
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': ('rest_framework_simplejwt.authentication.JWTAuthentication',),
+}
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'ROTATE_REFRESH_TOKENS': True,
+    'BLACKLIST_AFTER_ROTATION': True,
+    'UPDATE_LAST_LOGIN': True,
+    'SIGNING_KEY': SECRET_KEY,
+    'AUTH_HEADER_TYPES': ('Bearer',),
+}
+
+#swagger documentation
+SWAGGER_SETTINGS = {
+    'SECURITY_DEFINITIONS': {
+        'Bearer': {
+            'type': 'apiKey',
+            'name': 'Authorization',
+            'in': 'header'
+        }
+    }
+}
