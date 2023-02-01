@@ -4,7 +4,6 @@ from django.db import models
 
 
 class Apartment(models.Model):
-    # user = models.ForeignKey(to=Profile, on_delete=CASCADE)
     owner_Name = models.CharField(max_length=100,null=True)
     owner_pic = models.ImageField(upload_to='Housepic', null=True, blank=True)
     house_address  =models.TextField(null=False)
@@ -39,7 +38,6 @@ STATUS_CHOICES =(
 )
 
 class Tenant(models.Model):
-    # user = models.ForeignKey(to=Profile, on_delete=CASCADE)
     tenant_name = models.CharField(max_length=100)
     picture = models.ImageField(upload_to='tenant_picture', blank=True, null=True)
     family_size = models.CharField(max_length= 200, choices = STATUS_CHOICES, default= 'single')
