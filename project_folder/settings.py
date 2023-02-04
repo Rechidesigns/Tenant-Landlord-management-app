@@ -32,6 +32,7 @@ CLOUDINARY_STORAGE = {
     'API_SECRET': os.getenv('CLOUD_SECRET_KEY'),
 }
 
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -53,6 +54,9 @@ INSTALLED_APPS = [
     'rest_framework',
     'djoser',
     'drf_yasg',
+    'phonenumber_field',
+    'cloudinary_storage',
+    
 ]
 
 MIDDLEWARE = [
