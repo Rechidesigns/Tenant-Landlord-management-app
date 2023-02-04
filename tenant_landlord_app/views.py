@@ -71,11 +71,11 @@ class ApartmentDetailView(APIView):
 
     @swagger_auto_schema(method="delete")
     @action(methods=["DELETE"], detail=True)
-    def delete(self, request, apartment_id, formart=None):
+    def delete(self, request, apartment_id, format=None):
         obj = self.get_object(apartment_id)
-        if obj.Apartment.count() == 0:
-
+        if Apartment.objects.filter(id=apartment_id).count() == 1:
             obj.delete()
+            
             return Response(status=status.HTTP_204_NO_CONTENT)
         
         raise PermissionDenied(detail={"message": "cannot delete this apartment because it contains real Apartment."})
@@ -146,5 +146,6 @@ class TenantDetailView(APIView):
     @action(methods=["DELETE"], detail=True)   
     def delete(self, request, tenant_id, format=None):
         obj = self.get_object(tenant_id)
-        obj.delete()
+        if Tenant.objects.filter(id=tenant_id).count() == 1:
+            obj.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
