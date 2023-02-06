@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     'drf_yasg',
     'phonenumber_field',
     'cloudinary_storage',
+    'account',
     
 ]
 
@@ -146,6 +147,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 STATIC_FILE_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
+AUTH_USER_MODEL = "account.User"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field

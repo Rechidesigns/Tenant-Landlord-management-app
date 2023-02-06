@@ -43,6 +43,21 @@ class Apartment(models.Model):
 
 
 STATUS_CHOICES =(
+    ('single room', 'Single Room'),
+    ('room self contain', 'Room self contain'),
+    ('room and palor', 'Room and palor'),
+    ('one bedroom flat', 'One bedroom flat'),
+    ('two bedroom flat', 'Two beedrooms flat'),
+    ('three bedroom flat', 'Three beedrooms flat'),
+    ('four bedroom flat', 'Four beedrooms flat'),
+    ('five bedroom flat', 'Five beedrooms flat'),
+    ('six bedroom flat', 'Six beedrooms flat'),
+    ('duplex', 'Duplex'),
+    ('appartment', 'Appartment'), 
+
+)
+
+STATUS_CHOICES =(
     ('Single', 'single'),
     ('family size', 'Family of one'),
     ('family size', 'Family of two'),
@@ -57,8 +72,10 @@ class Tenant(models.Model):
     tenant_name = models.CharField(max_length=100)
     picture = models.ImageField(upload_to='tenant_picture', blank=True, null=True)
     family_size = models.CharField(max_length= 200, choices = STATUS_CHOICES, default= 'single')
+    house_type = models.CharField(max_length=200,choices = STATUS_CHOICES, default= 'appartment')
     phone_no = PhoneNumberField()
     email = models.EmailField(null=True, blank=True)
+    valid_ID = models.ImageField(upload_to='I_D', null=True, blank=True)
     address = models.CharField(max_length=200, null=False)
     city = models.CharField(max_length=100,null=False)
     state = models.CharField(max_length=100,null=False)
